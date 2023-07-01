@@ -44,18 +44,6 @@ INSTALLED_APPS = [
     'rest_framework',
 ]
 
-""" REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': (
-            'rest_framework.authentication.SessionAuthentication'
-    ),
-    'DEFAULT_SCHEMA_CLASS':
-        'rest_framework.schemas.coreapi.AutoSchema',
-            'DEFAULT_RENDERER_CLASSES': [
-                'rest_framework.renderers.JSONRenderer',
-                'rest_framework.renderers.BrowsableAPIRenderer',
-            ]
-}
- """
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

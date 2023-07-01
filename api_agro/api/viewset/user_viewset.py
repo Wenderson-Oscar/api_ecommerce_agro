@@ -1,6 +1,6 @@
 from rest_framework import viewsets, generics
-from ..models import User
-from .user_serializers import CreateUserSerializer, ReadUserSerializer
+from ...models import User
+from ..serializers.user_serializers import CreateUserSerializer, ReadUserSerializer
 
 
 class UserCreateView(generics.CreateAPIView):
@@ -18,10 +18,10 @@ class UserListView(generics.ListAPIView):
 class GetUserView(viewsets.ModelViewSet):
 
     serializer_class = ReadUserSerializer
+    queryset = User.objects.all()
 
-    def get_object(self):
-        return self.request.user
-    
-    def get_queryset(self):
-        return User.objects.filter(pk=self.request.user.pk)
 
+class UpdateUserView(generics.UpdateAPIView):
+
+    serializer_class = ReadUserSerializer
+    queryset = User.objects.all()
