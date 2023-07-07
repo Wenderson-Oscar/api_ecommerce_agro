@@ -5,11 +5,14 @@ from rest_framework.authentication import BasicAuthentication
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework.permissions import AllowAny
+
 
 class LoginView(APIView):
+    
     authentication_classes = [BasicAuthentication]
     permission_classes = [IsAuthenticated]
-
+    
     def get(self, request):
         user = request.user
         return Response({'message': f'logado como {user.name if user.name else user.email }.'})
@@ -17,9 +20,15 @@ class LoginView(APIView):
     
 class UserCreateView(generics.CreateAPIView):
 
+    permission_classes = [AllowAny]  # Adicione esta linha
     serializer_class = CreateUserSerializer
     queryset = User.objects.all()
 
+    def list(self, request, *args, **kwargs):
+        queryset = self.get_queryset()
+        serializer = ReadUserSerializer(queryset, many=True)
+        return Response(serializer.data)
+        
 
 class UserListView(generics.ListAPIView):
 
