@@ -13,7 +13,7 @@ class LoginView(APIView):
     authentication_classes = [BasicAuthentication]
     permission_classes = [IsAuthenticated]
     
-    def get(self, request):
+    def post(self, request):
         user = request.user
         return Response({'message': f'logado como {user.name if user.name else user.email }.'})
     
@@ -37,7 +37,7 @@ class UserListView(generics.ListAPIView):
 
 
 class GetUserView(viewsets.ModelViewSet):
-
+    
     serializer_class = ReadUserSerializer
     
     def get_queryset(self):
