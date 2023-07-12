@@ -13,13 +13,16 @@ class CreateProductSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         user = self.context['request'].user
-        product = Product.objects.create(user=user, **validated_data)
+        product = Product.objects.create(user_id=1, **validated_data)
         return product
 
 
 class ReadProductSerializer(serializers.ModelSerializer):
 
     id = serializers.IntegerField(read_only=True)
+    owner_name = serializers.CharField(source='user.name', read_only=True)
+    owner_phone = serializers.CharField(source='user.phone', read_only=True)
+    owner_email = serializers.EmailField(source='user.email', read_only=True)
 
     class Meta:
         model = Product
