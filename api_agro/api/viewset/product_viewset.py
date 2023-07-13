@@ -2,14 +2,19 @@ from ..serializers.product_serializers import CreateProductSerializer, ReadProdu
 from rest_framework import generics
 from ...models import Product
 from rest_framework.permissions import AllowAny
+from rest_framework.permissions import IsAuthenticated
 
 
 
 class CreateProductView(generics.CreateAPIView):
-
     permission_classes = []
     serializer_class = CreateProductSerializer
     queryset = Product.objects.all()
+
+    def perform_create(self, serializer):
+        user_id = self.kwargs['user_id']
+        serializer.save(user_id=user_id)
+
 
 
 class ReadProductView(generics.ListAPIView):

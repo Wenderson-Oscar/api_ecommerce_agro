@@ -45,13 +45,15 @@ INSTALLED_APPS = [
     #terceiros
     'rest_framework',
     'corsheaders',
+    'rest_framework.authtoken',
 
 ]
 
 REST_FRAMEWORK = {
 
     'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'],
+        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly',
+    ],
 }
 
 MIDDLEWARE = [

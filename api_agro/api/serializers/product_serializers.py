@@ -12,8 +12,9 @@ class CreateProductSerializer(serializers.ModelSerializer):
 
 
     def create(self, validated_data):
-        user = self.context['request'].user
-        product = Product.objects.create(user_id=1, **validated_data)
+        user_id = self.context['view'].kwargs['user_id']
+        validated_data['user_id'] = user_id
+        product = Product.objects.create(**validated_data)
         return product
 
 

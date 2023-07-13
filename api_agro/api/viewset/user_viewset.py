@@ -6,6 +6,8 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
+from rest_framework.authtoken.models import Token
+
 
 
 class LoginView(APIView):
@@ -13,9 +15,14 @@ class LoginView(APIView):
     authentication_classes = [BasicAuthentication]
     permission_classes = [IsAuthenticated]
     
+    #def post(self, request):
+    #    user = request.user
+    #    return Response({'message': f'logado como {user.name if user.name else user.email }.'})
+    
     def post(self, request):
         user = request.user
-        return Response({'message': f'logado como {user.name if user.name else user.email }.'})
+        token, _ = Token.objects.get_or_create(user=user)
+        return Response({'id': user.id, 'token': token.key})
     
     
 class UserCreateView(generics.CreateAPIView):
@@ -41,7 +48,8 @@ class GetUserView(viewsets.ModelViewSet):
     serializer_class = ReadUserSerializer
     
     def get_queryset(self):
-        return  User.objects.filter(id=1)
+        user_id = self.kwargs['id'] 
+        return  User.objects.filter(id=user_id)
 
 
 class UpdateUserView(generics.RetrieveUpdateAPIView):
@@ -50,4 +58,5 @@ class UpdateUserView(generics.RetrieveUpdateAPIView):
     serializer_class = ReadUserSerializer
 
     def get_queryset(self):
-        return  User.objects.filter(id=1)
+        user_id = self.kwargs['pk'] 
+        return  User.objects.filter(id=user_id)
